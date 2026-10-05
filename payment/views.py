@@ -27,7 +27,7 @@ def create_stripe_checkout_session(order, request):
     for item in cart.items.select_related('product', 'product_size'):
         line_items.append({
             'price_data': {
-                'currency': 'eur',
+                'currency': 'usd',
                 'product_data': {
                     'name': f'{item.product.name} - {item.product_size.size.name}',
                 },

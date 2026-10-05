@@ -165,7 +165,7 @@
                             <p class="text-xs text-gray-600">{{ item.product_size.size.name }}</p>
                         </div>
                         <div class="text-right">
-                            <span class="font-medium">€{{ item.product.price|floatformat:2 }}</span>
+                            <span class="font-medium">${{ item.product.price|floatformat:2 }}</span>
                         </div>
                     </div>
                 {% endfor %}
@@ -175,7 +175,7 @@
             <div id="order-summary" class="space-y-3 border-t pt-4">
                 <div class="flex justify-between text-sm">
                     <span>Итого • {{ cart.total_items }} товара {{ cart.total_items|pluralize }}</span>
-                    <span>€{{ total_price|floatformat:2 }}</span>
+                    <span>${{ total_price|floatformat:2 }}</span>
                 </div>
                 
                 <div class="flex justify-between text-sm">
@@ -187,7 +187,7 @@
                     <span>Итого</span>
                     <div class="text-right">
                         <span class="text-sm text-gray-600">EUR </span>
-                        <span>€{{ total_price|floatformat:2 }}</span>
+                        <span>${{ total_price|floatformat:2 }}</span>
                     </div>
                 </div>
             </div>

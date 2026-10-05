@@ -15,8 +15,8 @@ class OrderItemInline(admin.TabularInline):
     def image_preview(self, obj):
         if obj.product.main_image:
             return mark_safe(f'<img src="{obj.product.main_image.url}" style="max-height: 100px; "max-width: 100px; object-fit: cover;" />')
-        return mark_safe('<span style="color: gray;"> No Image</span>')
-    image_preview.short_description = 'Image'
+        return mark_safe('<span style="color: gray;">Изображение отсутствует</span>')
+    image_preview.short_description = 'Изображение'
 
     
     def get_total_price(self, obj):
@@ -24,7 +24,7 @@ class OrderItemInline(admin.TabularInline):
             return obj.get_total_price()
         except TypeError:
             return mark_safe('<span style="color: red;">Invalid Data</span>')
-    get_total_price.short_description = 'Total Price'
+    get_total_price.short_description = 'Общая стоимость'
 
 
 @admin.register(Order)

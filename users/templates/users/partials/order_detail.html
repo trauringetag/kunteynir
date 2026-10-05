@@ -6,7 +6,7 @@
         <p class="text-sm text-gray-700">Размещен: {{ order.created_at|date:"F d, Y" }}</p>
         <p class="text-sm text-gray-700">Статус: {{ order.get_status_display }}</p>
         <p class="text-sm text-gray-700">Платежный сервис: {{ order.get_payment_provider_display }}</p>
-        <p class="text-sm text-gray-700">Итого: €{{ order.total_price|floatformat:2 }}</p>
+        <p class="text-sm text-gray-700">Итого: ${{ order.total_price|floatformat:2 }}</p>
         <p class="text-sm text-gray-700">Адрес доставки:</p>
         <p class="text-sm text-gray-700">
             {{ order.first_name }} {{ order.last_name }}<br>
@@ -25,7 +25,7 @@
                         <p class="text-sm text-gray-700">{{ item.product.name }} - {{ item.size.size.name }}</p>
                         <p class="text-sm text-gray-600">Количество: {{ item.quantity }}</p>
                     </div>
-                    <p class="text-sm text-gray-700">€{{ item.get_total_price|floatformat:2 }}</p>
+                    <p class="text-sm text-gray-700">${{ item.get_total_price|floatformat:2 }}</p>
                 </div>
             {% endfor %}
         </div>

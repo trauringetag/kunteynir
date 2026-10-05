@@ -9,7 +9,7 @@
                     <p class="text-sm text-gray-700">Заказ #{{ order.id }}</p>
                     <p class="text-sm text-gray-700">Размещен: {{ order.created_at|date:"F d, Y" }}</p>
                     <p class="text-sm text-gray-700">Статус: {{ order.get_status_display }}</p>
-                    <p class="text-sm text-gray-700">Итого: €{{ order.total_price|floatformat:2 }}</p>
+                    <p class="text-sm text-gray-700">Итого: ${{ order.total_price|floatformat:2 }}</p>
                     <button 
                         hx-get="{% url 'users:order_detail' order.id %}" 
                         hx-target="#profile-main-content" 
