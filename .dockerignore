@@ -10,3 +10,9 @@ db.sqlite3
 .idea
 .vscode
 *.log
+node_modules
+docker-compose.yml
+Dockerfile
+README.md
+docs/
+tests/
