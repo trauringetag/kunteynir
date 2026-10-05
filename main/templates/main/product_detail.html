@@ -93,7 +93,8 @@
             <div class="space-y-4">
                 <button id="add-to-cart-btn" 
                         class="w-full bg-black text-white py-3 px-6 text-sm font-medium hover:bg-gray-800 transition-colors"
-                        onclick="addToCart()"
+                        onclick="addToCart(this)"
+                        data-slug="{{ product.slug }}"
                         {% if not product.product_sizes.all %}disabled{% endif %}>
                     ДОБАВИТЬ В КОРЗИНУ
                 </button>
@@ -186,31 +187,39 @@
         if (checkedRadio) {
             selectedSize = checkedRadio.dataset.size;
             selectedSizeId = checkedRadio.value;
-            console.log('Updated Selected Size:', selectedSize, 'ID:', selectedSizeId);
+            console.log('Выбранный размер обновлен:', selectedSize, 'ID:', selectedSizeId);
         } else {
             selectedSize = null;
             selectedSizeId = null;
-            console.log('No valid size selected');
+            console.log('Не выбран допустимый размер');
         }
     }
 
-    function addToCart() {
-        const productSlug = '{{ product.slug }}';
-        console.log('Product Slug:', productSlug);
+function addToCart(button) {
+        // 1. Берем slug прямо из нажатой кнопки. Это 100% актуальные данные.
+        const productSlug = button.dataset.slug;
+        console.log('Добавляем товар с slug:', productSlug);
         
-        // Обновить выбранный размер перед отправкой
-        updateSelectedSize();
-        console.log('Selected Size ID:', selectedSizeId);
-
-        if (!selectedSizeId) {
-            showNotification('Please select a size');
+        // 2. Ищем выбранный размер ПРЯМО СЕЙЧАС, в момент клика, в текущем DOM
+        const checkedRadio = document.querySelector('.size-radio:checked:not(:disabled)');
+        
+        if (!checkedRadio) {
+            showNotification('Пожалуйста, выберите размер');
             return;
         }
 
+        const selectedSizeId = checkedRadio.value;
+        console.log('ID выбранного размера:', selectedSizeId);
+
+        // 3. Формируем данные
         let formData = new FormData();
         formData.append('size_id', selectedSizeId);
         formData.append('quantity', '1');
-        fetch(`{% url 'cart:add_to_cart' 'PLACEHOLDER' %}`.replace('PLACEHOLDER', productSlug), {
+        
+        const url = "{% url 'cart:add_to_cart' 'PLACEHOLDER' %}".replace('PLACEHOLDER', productSlug);
+
+        // 4. Отправляем запрос
+        fetch(url, {
             method: 'POST',
             body: formData,
             headers: {
@@ -218,7 +227,13 @@
             }
         })
         .then(response => {
-            console.log('Response Status:', response.status);
+            console.log('Статус ответа:', response.status);
+            // Улучшенная обработка ошибок: если придет 400, мы увидим текст ошибки от Django
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`Ошибка ${response.status}: ${text}`);
+                });
+            }
             return response.json();
         })
         .then(data => {
@@ -236,7 +251,7 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            showNotification('Error adding to cart');
+            showNotification('Ошибка: ' + error.message);
         });
     }
     
@@ -274,24 +289,24 @@
     function initializeSizeRadios() {
         const sizeRadios = document.querySelectorAll('.size-radio');
         const addToCartBtn = document.getElementById('add-to-cart-btn');
-        console.log('Size Radios Found:', sizeRadios.length);
+        console.log('Обнаружены указанные размеры:', sizeRadios.length);
 
         if (sizeRadios.length === 0) {
-            console.log('No size radios available');
+            console.log('Подходящего размера нет в наличии');
             addToCartBtn.disabled = true;
             addToCartBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            showNotification('No sizes available');
+            showNotification('Нет доступных размеров');
             return;
         }
 
         const availableRadios = Array.from(sizeRadios).filter(radio => !radio.disabled);
-        console.log('Available Size Radios:', availableRadios.length);
+        console.log('Доступные размеры:', availableRadios.length);
 
         if (availableRadios.length === 0) {
-            console.log('All sizes are out of stock');
+            console.log('Все размеры распроданы');
             addToCartBtn.disabled = true;
             addToCartBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            showNotification('All sizes are out of stock');
+            showNotification('Все размеры распроданы');
             return;
         }
 
@@ -300,7 +315,7 @@
         if (!checkedRadio && availableRadios.length > 0) {
             availableRadios[0].checked = true;
             checkedRadio = availableRadios[0];
-            console.log('Auto-checked first available radio:', checkedRadio.dataset.size, 'ID:', checkedRadio.value);
+            console.log('Автоматически выбран первый радиопереключатель:', checkedRadio.dataset.size, 'ID:', checkedRadio.value);
         }
 
         // Обновление выбранного размера
@@ -310,10 +325,10 @@
         sizeRadios.forEach(radio => {
             radio.addEventListener('change', function(e) {
                 if (this.disabled) {
-                    console.log('Changed disabled radio:', this.dataset.size);
+                    console.log('Изменен статус переключателя (отключено):', this.dataset.size);
                     return;
                 }
-                console.log('Radio Changed - Selected Size:', this.dataset.size, 'ID:', this.value);
+                console.log('Радиокнопка изменена - выбранный размер:', this.dataset.size, 'ID:', this.value);
                 updateSelectedSize();
                 addToCartBtn.disabled = false;
                 addToCartBtn.classList.remove('opacity-50', 'cursor-not-allowed');
