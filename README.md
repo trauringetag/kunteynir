@@ -21,7 +21,7 @@
 
 - **Операционная система:** Windows 10/11 (с обязательной поддержкой WSL 2) или macOS / Linux.
 - **Docker:** Установленный и запущенный [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-- **Git:** Установленный [Git](https://git-scm.com/downloads) для клонирования репозитория.
+- **Git:** Установленный [Git](https://git-scm.com/install/windows) для клонирования репозитория.
 
 ---
 
