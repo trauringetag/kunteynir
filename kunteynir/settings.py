@@ -16,7 +16,7 @@ IS_DOCKER = (ENVIRONMENT == 'docker')
 
 if IS_DOCKER:
     # Настройки для запуска внутри Docker-контейнера
-    DEBUG = False
+    DEBUG = True
     ALLOWED_HOSTS = ['web', 'nginx', 'localhost', '127.0.0.1', '*']
     DEFAULT_DB_HOST = 'db'
 else:
