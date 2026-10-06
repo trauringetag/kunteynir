@@ -72,7 +72,7 @@ MIDDLEWARE = [
     'cart.middleware.CartMiddleware',
 ]
 
-ROOT_URLCONF = 'onlineshop.urls'
+ROOT_URLCONF = 'kunteynir.urls'
 
 TEMPLATES = [
     {
@@ -91,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'onlineshop.wsgi.application'
+WSGI_APPLICATION = 'kunteynir.wsgi.application'
 
 
 # ==========================================
@@ -100,9 +100,9 @@ WSGI_APPLICATION = 'onlineshop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'onlineshop_db'),
-        'USER': os.getenv('POSTGRES_USER', 'onlineshop_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'onlineshop_password'),
+        'NAME': os.getenv('POSTGRES_DB', 'kunteynir_db'),
+        'USER': os.getenv('POSTGRES_USER', 'kunteynir_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'kunteynir_password'),
         # УМНАЯ ЛОГИКА: берем из .env, а если там пусто — подставляем 'db' или 'localhost'
         'HOST': os.getenv('POSTGRES_HOST', DEFAULT_DB_HOST),
         'PORT': os.getenv('POSTGRES_PORT', '5432'),

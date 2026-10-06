@@ -32,4 +32,4 @@ RUN find . -type d -name "__pycache__" -exec rm -rf {} + && \
     find . -type f -name "*.pyc" -delete
 
 # Запуск
-CMD ["gunicorn", "onlineshop.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["gunicorn", "kunteynir.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]

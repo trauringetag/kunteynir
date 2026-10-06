@@ -1,13 +1,13 @@
 services:
   db:
     image: postgres:17-alpine
-    container_name: onlineshop_db
+    container_name: kunteynir_db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - onlineshop_postgres_data:/var/lib/postgresql/data
+      - kunteynir_postgres_data:/var/lib/postgresql/data
       - ./docker/postgres:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"      
@@ -21,7 +21,7 @@ services:
 
   migrate:
     build: .
-    container_name: onlineshop_migrate
+    container_name: kunteynir_migrate
     command: python manage.py migrate --noinput
     env_file:
       - .env
@@ -36,7 +36,7 @@ services:
 
   web:
     build: .
-    container_name: onlineshop_web
+    container_name: kunteynir_web
     ports:
       - "8000:8000"
     env_file:
@@ -46,8 +46,8 @@ services:
       - POSTGRES_HOST=db
     volumes:
       - .:/app
-      - onlineshop_static:/app/staticfiles
-      - onlineshop_media:/app/media
+      - kunteynir_static:/app/staticfiles
+      - kunteynir_media:/app/media
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -59,24 +59,24 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: onlineshop_nginx
+    container_name: kunteynir_nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/:/etc/letsencrypt/
-      - onlineshop_static:/app/staticfiles
-      - onlineshop_media:/app/media
+      - kunteynir_static:/app/staticfiles
+      - kunteynir_media:/app/media
     depends_on:
       - web
     networks:
       - app-network
 
 volumes:
-  onlineshop_postgres_data:
-  onlineshop_static:
-  onlineshop_media:
+  kunteynir_postgres_data:
+  kunteynir_static:
+  kunteynir_media:
 
 networks:
   app-network:
