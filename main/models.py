@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
 
-# Здесь формируются инструкции для формирования таблиц в базе данных
 
 class Category(models.Model):
     

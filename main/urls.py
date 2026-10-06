@@ -3,8 +3,6 @@ from . import views
 
 app_name = 'main'
 
-# Регистрация всех путей веб-сайта
-
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('catalog/', views.CatalogView.as_view(), name='catalog_all'),

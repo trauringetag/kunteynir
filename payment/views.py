@@ -14,6 +14,7 @@ import json
 import hashlib
 import base64
 
+# Локальный запуск платежного провайдера Stripe:
 # stripe login
 # stripe listen --forward-to localhost:8000/payment/stripe/webhook/
 
