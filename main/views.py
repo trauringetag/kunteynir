@@ -29,7 +29,7 @@ class IndexView(TemplateView):
     
 class CatalogView(TemplateView):
     
-    template = 'main/base.html'
+    template_name = 'main/base.html'
 
     FILTER_MAPPING = {
         'color': lambda queryset, value: queryset.filter(color__iexact=value),

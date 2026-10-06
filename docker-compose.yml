@@ -2,6 +2,8 @@ services:
   db:
     image: postgres:17-alpine
     container_name: kunteynir_db
+    command: >
+      bash -c "chmod -R +x /docker-entrypoint-initdb.d/ && exec docker-entrypoint.sh postgres"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
